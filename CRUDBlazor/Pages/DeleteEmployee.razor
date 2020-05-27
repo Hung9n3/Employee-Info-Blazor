@@ -1,0 +1,66 @@
+﻿
+@page "/DeleteEmployee/{CurrentID}"
+@using CRUDBlazor.Database
+@using CRUDBlazor.Services
+@using CRUDBlazor.Models
+@inject NavigationManager NavigationManager
+@inject EmployeeServices objEmpServices
+<h2>Delete Employee</h2>
+<hr />
+<h3>R u sure want to Delete Employee ?</h3>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>Employee ID:</label>
+            <label>@objEmp.EmployeeID:</label>
+        </div>
+        <div class="form-group">
+            <label>Employee Name:</label>
+            <label>@objEmp.Name:</label>
+        </div>
+        <div class="form-group">
+            <label>Employee Gender:</label>
+            <label>@objEmp.Gender:</label>
+        </div>
+        <div class="form-group">
+            <label>Employee Country:</label>
+            <label>@objEmp.Country:</label>
+        </div>
+        <div class="form-group">
+            <label>Employee City:</label>
+            <label>@objEmp.City:</label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class=" cold-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-danger" @onclick="@DeleteEmployees" value="Delete" />
+            <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+
+    EmployeeInfo objEmp = new EmployeeInfo();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        objEmp = await Task.Run(() => objEmpServices.GetEmployeeByID(Convert.ToInt32(CurrentID)));
+    }
+
+    protected void DeleteEmployees()
+    {
+        objEmpServices.Delete(objEmp);
+        NavigationManager.NavigateTo("Employee");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Employee");
+    }
+}
+

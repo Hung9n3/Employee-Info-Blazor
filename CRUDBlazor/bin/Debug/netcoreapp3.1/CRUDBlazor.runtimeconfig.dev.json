@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\chova\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\chova\\.nuget\\packages"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+﻿<h3>AddEmployee</h3>
+@page "/AddEmployee"
+@using CRUDBlazor.Database
+@using CRUDBlazor.Services 
+@using CRUDBlazor.Models 
+@inject NavigationManager NavigationManager
+@inject EmployeeServices objEmpServices
+<h2>Add Employee</h2>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input form="Name" class="form-control" @bind="@objEmp.Name" />
+            </div>
+            <div class="form-group">
+                <label for="Gender" class="control-label"></label>
+                <select @bind="@objEmp.Gender" class="form-control">
+                    <option value="">--Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Trash">Trash</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Country" class="control-label">Country</label>
+                <input form="Country" class="form-control" @bind="@objEmp.Country" />
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">City</label>
+                <input form="City" class="form-control" @bind="@objEmp.City" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@CreateEmployee" value="Save"/>
+            <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</form>
+@code {
+    EmployeeInfo objEmp = new EmployeeInfo();
+
+    protected void CreateEmployee()
+    {
+        objEmpServices.Create(objEmp);
+        NavigationManager.NavigateTo("Employee");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Employee");
+    }
+}

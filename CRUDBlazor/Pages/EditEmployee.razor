@@ -1,0 +1,70 @@
+﻿<h3>EditEmployee</h3>
+
+@page "/EditEmployee/{CurrentID}"
+@using CRUDBlazor.Database
+@using CRUDBlazor.Services
+@using CRUDBlazor.Models
+@inject NavigationManager NavigationManager
+@inject EmployeeServices objEmpServices
+<h2>Add Employee</h2>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <input for="Name" class="form-control" @bind="@objEmp.EmployeeID"/>
+
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input form="Name" class="form-control" @bind="@objEmp.Name" />
+            </div>
+            <div class="form-group">
+                <label for="Gender" class="control-label"></label>
+                <select @bind="@objEmp.Gender" class="form-control">
+                    <option value="">--Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Country" class="control-label">Country</label>
+                <input form="Country" class="form-control" @bind="@objEmp.Country" />
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">City</label>
+                <input form="City" class="form-control" @bind="@objEmp.City" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@UpdateEmployee" value="Update" />
+            <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</form>
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+
+    EmployeeInfo objEmp = new EmployeeInfo();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        objEmp = await Task.Run(() => objEmpServices.GetEmployeeByID(Convert.ToInt32(CurrentID)));
+    }
+
+    protected void UpdateEmployee()
+    {
+        objEmpServices.UpdateEmployee(objEmp);
+        NavigationManager.NavigateTo("Employee");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Employee");
+    }
+}
+
